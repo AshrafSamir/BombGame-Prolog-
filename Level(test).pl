@@ -11,16 +11,16 @@ star([3,2]).
 
 
 
-move([X,Y],[Nx,Y],left):-
+move([X,Y],[Nx,Y],up):-
 Nx is X - 1.
 
-move([X,Y],[Nx,Y],right):-
+move([X,Y],[Nx,Y],down):-
 Nx is X + 1.
 
-move([X,Y],[X,Ny],up):-
+move([X,Y],[X,Ny],left):-
 Ny is Y - 1.
 
-move([X,Y],[X,Ny],down):-
+move([X,Y],[X,Ny],right):-
 Ny is Y + 1.
 
 
@@ -52,7 +52,7 @@ play(Moves,Stars):-
 start(S),
 path(S,0,[S],Moves,Stars).
 
-path(State,NStar,Goal,Goal,NStar):-
+path(State,NStar,_,[],NStar):-
 end(State).
 
 path(State,Star,Visited,Moves,Ns):-
@@ -60,7 +60,8 @@ move(State,Nstate,Dir),
 \+ member(Nstate,Visited),
 \+ unSafe(Nstate),
 getStar(Nstate,Star,NStar),
-path(Nstate,NStar,[Nstate|Visited],Moves,Ns).
+path(Nstate,NStar,[Nstate|Visited],NMoves,Ns),
+append([Dir],NMoves,Moves).
 
 
 
